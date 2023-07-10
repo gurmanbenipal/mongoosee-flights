@@ -1,6 +1,33 @@
 const mongoose = require('mongoose');
-
+const {ObjectId} = require('mongoose');
 const Schema = mongoose.Schema;
+
+
+
+module.exports = {
+  deleteOne
+};
+
+function deleteOne(id) {
+  id = parseInt(id);
+  const idx = flights.findIndex(flight => flight.id === id);
+  flights.splice(idx, 1);
+}
+
+const ticketSchema = new Schema({
+  seat: {
+    type: String,
+    match: /[A-F][1-9]\d?/
+  },
+  price: Number,
+  flight: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Flight'
+  }
+}, {
+  timestamps: true
+});
+
 
 const destinationSchema = new Schema({
   airport: {
@@ -28,7 +55,8 @@ const flightSchema = new Schema({
   },
   flightNo: Number,
   departs: Date,
-  destinations: [destinationSchema]
+  destinations: [destinationSchema],
+  tickets: [ticketSchema]
 }, {
   timestamps: true
 });
